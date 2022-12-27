@@ -26,6 +26,14 @@ model TicTacToe {
   winner    String
 }
 
+model ToDos {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  description   String
+  isCompleted   Boolean?
+  isDeleted     Boolean?
+}
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
