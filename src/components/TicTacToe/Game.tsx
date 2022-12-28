@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { trpc } from '../../utils/trpc';
 import type { SquareValue, WinnerValue, InitGame } from './types';
 import Board from './Board';
-import { trpc } from '../../utils/trpc';
 import Scoreboard from './Scoreboard';
 
 const initGame: InitGame = {
@@ -110,7 +110,7 @@ const Game: React.FC = () => {
         <div>{winner !== 'DRAW' ? `The winner is Player ${winner}!` : 'Its a draw'}</div>
       )}
       <button
-        className="my-4 flex max-w-xs flex-col gap-4 rounded-md border-2 border-gray-600 bg-white py-2 px-6 text-black drop-shadow hover:bg-gray-500 hover:text-white"
+        className="rounded-md border-2 border-gray-600 bg-white py-2 px-6 text-black drop-shadow hover:bg-gray-500 hover:text-white"
         onClick={() => resetGame()}
       >
         Reset Game

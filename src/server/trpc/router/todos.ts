@@ -3,9 +3,18 @@ import { addTodo, markCompletedById, removeById } from '../../schema/todos.schem
 
 export const toDosRouter = router({
   getTodos: publicProcedure.query(async ({ ctx }) => {
-    const results = await ctx.prisma.toDos;
+    const results = await ctx.prisma.toDos.findMany();
 
-    return results;
+    const resultMap = results.map((result) => {
+      return {
+        id: result.id,
+        description: result.description,
+        isCompleted: result.isCompleted,
+        isDeleted: result.isDeleted,
+      };
+    });
+
+    return resultMap;
   }),
   addTodo: publicProcedure.input(addTodo).mutation(async ({ ctx, input }) => {
     const addWinner = await ctx.prisma.toDos.create({
