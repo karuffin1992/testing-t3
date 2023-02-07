@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { trpc } from '../../utils/trpc';
 import type { SquareValue, WinnerValue, InitGame } from './types';
 import Board from './Board';
@@ -103,24 +104,39 @@ const Game: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="py-4 text-3xl font-bold">Welcome to Tic Tac Toe!</h1>
-      <Board board={board} onClick={(i) => handleClick(i)} />
-      {winner && (
-        <div>{winner !== 'DRAW' ? `The winner is Player ${winner}!` : 'Its a draw'}</div>
-      )}
-      <button
-        className="rounded-md border-2 border-gray-600 bg-white py-2 px-6 text-black drop-shadow hover:bg-gray-500 hover:text-white"
-        onClick={() => resetGame()}
-      >
-        Reset Game
-      </button>
-      <Scoreboard
-        isLoading={loadingAllWinners}
-        xWins={allWinnersData?.find((data) => data.winner === 'X')?.count || 0}
-        oWins={allWinnersData?.find((data) => data.winner === 'O')?.count || 0}
-        draws={allWinnersData?.find((data) => data.winner === 'DRAW')?.count || 0}
-      />
+    <div className="h-screen bg-gradient-to-br from-gray-900 to-blue-900 p-6">
+      <div className="container mx-auto">
+        <Link className="text-gray-100 hover:underline hover:underline-offset-4" href="/">
+          &lt; Return to Home
+        </Link>
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="py-4 text-3xl font-bold text-gray-100">
+            Welcome to Tic Tac Toe!
+          </h1>
+          <Board board={board} onClick={(i) => handleClick(i)} />
+          {winner && (
+            <div className="text-xl text-gray-100">
+              {winner !== 'DRAW' ? `The winner is Player ${winner}!` : 'Its a draw...'}
+            </div>
+          )}
+          {totalTurns !== 1 && (
+            <div className="py-4">
+              <button
+                className="rounded-md border-2 border-gray-300 bg-white/5 py-2 px-6 text-gray-100 drop-shadow hover:bg-white/20"
+                onClick={() => resetGame()}
+              >
+                Reset Game
+              </button>
+            </div>
+          )}
+          <Scoreboard
+            isLoading={loadingAllWinners}
+            xWins={allWinnersData?.find((data) => data.winner === 'X')?.count || 0}
+            oWins={allWinnersData?.find((data) => data.winner === 'O')?.count || 0}
+            draws={allWinnersData?.find((data) => data.winner === 'DRAW')?.count || 0}
+          />
+        </div>
+      </div>
     </div>
   );
 };
