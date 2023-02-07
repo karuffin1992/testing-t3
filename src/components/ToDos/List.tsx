@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { trpc } from '../../utils/trpc';
 import Item from './Item';
 
@@ -51,47 +52,56 @@ const List: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-48">
-      <h1 className="py-4 text-center text-3xl font-bold">To Do List</h1>
-      <form className="w-full py-2" onSubmit={handleSubmit}>
-        <div className="flex items-center border-b border-teal-500 py-2">
-          <input
-            className="mr-3 w-full appearance-none border-none bg-transparent py-1 px-2 leading-tight text-gray-700 focus:outline-none"
-            name="description"
-            type="text"
-            placeholder="Enter description"
-            aria-label="Enter description"
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          />
-          <button
-            className="flex-shrink-0 rounded border-4 border-teal-500 bg-teal-500 py-1 px-2 text-sm text-white hover:border-teal-700 hover:bg-teal-700"
-            type="submit"
-          >
-            + Add To Do
-          </button>
+    <div className="h-screen bg-yellow-100 p-6">
+      <div className="container mx-auto">
+        <Link className="text-gray-700 hover:underline hover:underline-offset-4" href="/">
+          &lt; Return to Home
+        </Link>
+        <div className="px-48">
+          <h1 className="py-4 text-center text-3xl font-bold text-gray-700">
+            To Do List
+          </h1>
+          <form className="w-full py-2" onSubmit={handleSubmit}>
+            <div className="flex items-center border-b border-teal-500 py-2">
+              <input
+                className="mr-3 w-full appearance-none border-none bg-transparent py-1 px-2 leading-tight text-gray-700 focus:outline-none"
+                name="description"
+                type="text"
+                placeholder="Enter description"
+                aria-label="Enter description"
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+              />
+              <button
+                className="flex-shrink-0 rounded border-4 border-teal-500 bg-teal-500 py-1 px-2 text-sm text-white hover:border-teal-700 hover:bg-teal-700"
+                type="submit"
+              >
+                + Add To Do
+              </button>
+            </div>
+          </form>
+          <div className="py-4">
+            {loadingTodos && <div>Loading...</div>}
+            {allTodos && (
+              <>
+                {allTodos
+                  .filter((todo) => !todo.isDeleted)
+                  .map((todo) => {
+                    return (
+                      <Item
+                        key={todo.id}
+                        todo={todo}
+                        markCompleted={markCompleted}
+                        removeToDo={removeToDo}
+                      />
+                    );
+                  })}
+              </>
+            )}
+          </div>
         </div>
-      </form>
-      <div className="py-4">
-        {loadingTodos && <div>Loading...</div>}
-        {allTodos && (
-          <>
-            {allTodos
-              .filter((todo) => !todo.isDeleted)
-              .map((todo) => {
-                return (
-                  <Item
-                    key={todo.id}
-                    todo={todo}
-                    markCompleted={markCompleted}
-                    removeToDo={removeToDo}
-                  />
-                );
-              })}
-          </>
-        )}
       </div>
     </div>
   );

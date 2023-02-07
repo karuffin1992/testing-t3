@@ -12,7 +12,11 @@ const Item: React.FC<ItemProps> = (props) => {
           value=""
         />
         <div
-          className={`${props.todo.isCompleted ? 'text-gray-500 line-through' : ''} pl-4`}
+          className={`${
+            props.todo.isCompleted
+              ? 'text-gray-500 line-through decoration-red-500'
+              : 'text-gray-700'
+          } pl-4`}
         >
           {props.todo.description}
         </div>
